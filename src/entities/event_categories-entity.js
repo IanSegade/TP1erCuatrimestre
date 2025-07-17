@@ -1,7 +1,7 @@
 export class EventCategory {
-    constructor({ id, name, displayOrder }) {
+    constructor({ id, name, display_order }) {
       this.id = id != null ? Number(id) : undefined;
       this.name = name;
-      this.displayOrder = displayOrder != null ? Number(displayOrder) : undefined;
+      this.display_order = display_order != null ? Number(display_order) : undefined;
     }
-}  
+}

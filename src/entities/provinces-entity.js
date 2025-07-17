@@ -1,10 +1,10 @@
 export class Province {
-    constructor({ id, name, fullName, latitude, longitude, displayOrder }) {
+    constructor({ id, name, full_name, latitude, longitude, display_order }) {
       this.id = id != null ? Number(id) : undefined;
       this.name = name;
-      this.fullName = fullName;
+      this.full_name = full_name;
       this.latitude = latitude != null ? Number(latitude) : undefined;
       this.longitude = longitude != null ? Number(longitude) : undefined;
-      this.displayOrder = displayOrder != null ? Number(displayOrder) : undefined;
+      this.display_order = display_order != null ? Number(display_order) : undefined;
     }
-  }  
+}
