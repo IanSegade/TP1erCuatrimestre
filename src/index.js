@@ -5,6 +5,7 @@ import client from "./configs/db-config.js";
 import * as eventController from './controllers/events-controller.js';
 import * as userController from './controllers/users-controller.js';
 import * as enrollmentController from './controllers/event_enrollments-controller.js';
+import * as eventLocationController from './controllers/event_locations-controller.js';
 import * as middlewares from './middlewares/autenticacion.js';
 
 const { Client } = pkg;
@@ -32,7 +33,15 @@ app.post('/api/event/:id/enrollment', middlewares.autenticacionMiddleware, enrol
 
 app.delete('/api/event/:id/enrollment', middlewares.autenticacionMiddleware, enrollmentController.manejarDesinscripcion); //7
 
+app.get('/api/event-location', middlewares.autenticacionMiddleware, eventLocationController.manejarObtenerTodas); //8
 
+app.get('/api/event-location/:id', middlewares.autenticacionMiddleware, eventLocationController.manejarObtenerUna); //8
+
+app.post('/api/event-location', middlewares.autenticacionMiddleware, eventLocationController.manejarCrear); 
+
+app.put('/api/event-location/:id', middlewares.autenticacionMiddleware, eventLocationController.manejarActualizar);
+
+app.delete('/api/event-location/:id', middlewares.autenticacionMiddleware, eventLocationController.manejarEliminar);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
