@@ -37,11 +37,11 @@ app.get('/api/event-location', middlewares.autenticacionMiddleware, eventLocatio
 
 app.get('/api/event-location/:id', middlewares.autenticacionMiddleware, eventLocationController.manejarObtenerUna); //8
 
-app.post('/api/event-location', middlewares.autenticacionMiddleware, eventLocationController.manejarCrear); 
+app.post('/api/event-location', middlewares.autenticacionMiddleware, eventLocationController.manejarCrear); //8
 
-app.put('/api/event-location/:id', middlewares.autenticacionMiddleware, eventLocationController.manejarActualizar);
+app.put('/api/event-location/:id', middlewares.autenticacionMiddleware, eventLocationController.manejarActualizar); //8
 
-app.delete('/api/event-location/:id', middlewares.autenticacionMiddleware, eventLocationController.manejarEliminar);
+app.delete('/api/event-location/:id', middlewares.autenticacionMiddleware, eventLocationController.manejarEliminar); //8
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

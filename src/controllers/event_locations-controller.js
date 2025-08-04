@@ -43,6 +43,7 @@ export async function manejarActualizar(req, res) {
     }
 }
 
+
 export async function manejarEliminar(req, res) {
     try {
         await service.eliminar(parseInt(req.params.id), req.user.id);

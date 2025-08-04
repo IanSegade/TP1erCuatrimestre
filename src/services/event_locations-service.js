@@ -1,16 +1,16 @@
 import * as repo from "../repositories/event_locations-repository.js";
 
-function validarDatos({ name, full_address, id_location, max_capacity }) {
-    if (!name || name.trim().length < 3) {
+function validarDatos(data = {}) {
+    if (!data.name || data.name.length < 3) {
         throw { codigo: 400, message: "El nombre debe tener al menos 3 caracteres" };
     }
-    if (!full_address || full_address.trim().length < 3) {
+    if (!data.full_address || data.full_address.length < 3) {
         throw { codigo: 400, message: "La dirección debe tener al menos 3 caracteres" };
     }
-    if (!id_location || isNaN(id_location)) {
+    if (!data.id_location || isNaN(data.id_location)) {
         throw { codigo: 400, message: "El id_location es inválido" };
     }
-    if (!max_capacity || max_capacity <= 0) {
+    if (!data.max_capacity || data.max_capacity <= 0) {
         throw { codigo: 400, message: "La capacidad máxima debe ser mayor que 0" };
     }
 }
@@ -40,6 +40,7 @@ export async function actualizar(id, id_user, data) {
     }
     return actualizada;
 }
+
 
 export async function eliminar(id, id_user) {
     const eliminada = await repo.eliminar(id, id_user);
