@@ -1,4 +1,4 @@
-export class Location {
+export default class Location {
     constructor({ id, name, id_province, latitude, longitude }) {
       this.id = id != null ? Number(id) : undefined;
       this.name = name;

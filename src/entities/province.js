@@ -1,4 +1,4 @@
-export class Province {
+export default class Province {
     constructor({ id, name, full_name, latitude, longitude, display_order }) {
       this.id = id != null ? Number(id) : undefined;
       this.name = name;

@@ -1,4 +1,4 @@
-export class EventLocation {
+export default class EventLocation {
     constructor({ id, id_location, name, full_address, max_capacity, latitude, longitude }) {
       this.id = id != null ? Number(id) : undefined;
       this.id_location = id_location != null ? Number(id_location) : undefined;
