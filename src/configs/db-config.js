@@ -4,7 +4,7 @@ const config = {
   host: "aws-0-sa-east-1.pooler.supabase.com",
   port: 6543,
   database: "postgres",
-  user: "postgres.ryvwoillpxdgdfogkdbq",
+  user: "postgres.fwlsjwafntlfhankxvuk",
   password: "SkibidiMortis2",
 };
 
