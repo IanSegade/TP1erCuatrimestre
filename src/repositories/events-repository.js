@@ -186,9 +186,9 @@ export async function crearEvento(evento) {
     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *
   `;
   const values = [
-    evento.name, evento.description, evento.idEventCategory, evento.idEventLocation,
-    evento.startDate, evento.durationInMinutes, evento.price, evento.enabledForEnrollment,
-    evento.maxAssistance, evento.idCreatorUser
+    evento.name, evento.description, evento.id_event_category, evento.id_event_location,
+    evento.start_Date, evento.duration_in_minutes, evento.price, evento.enabled_for_enrollment,
+    evento.max_assistance, evento.id_creator_user
   ];
   const { rows } = await client.query(query, values);
   return new Event(rows[0]);
