@@ -14,3 +14,16 @@ export async function manejarObtenerEventoConDetalle(req, res) {
     res.status(500).json({ error: "Error interno del servidor." });
   }
 }
+
+export async function manejarListarEventosPaginados(req, res) {
+  const limit = req.query.limit || 10;
+  const offset = req.query.offset || 0;
+
+  try {
+    const eventos = await eventService.listarEventosPaginadosService(limit, offset);
+    res.status(200).json(eventos);
+  } catch (error) {
+    console.error("Error al listar eventos paginados:", error);
+    res.status(500).json({ error: "Error interno del servidor." });
+  }
+}

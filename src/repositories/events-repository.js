@@ -64,3 +64,48 @@ export async function obtenerEventoConDetalle(idEvento) {
 
   return evento;
 }
+
+export async function listarEventosPaginados(limit, offset) {
+  const query = `
+    SELECT 
+      e.id, e.name, e.description, e.start_date, e.duration_in_minutes, e.price,
+      e.enabled_for_enrollment, el.max_capacity,
+      u.id as user_id, u.first_name, u.last_name, u.username,
+      el.id as event_location_id, el.name as event_location_name, el.full_address,
+      loc.id as location_id, loc.name as location_name,
+      p.id as province_id, p.name as province_name
+    FROM events e
+    JOIN users u ON e.id_creator_user = u.id
+    JOIN event_locations el ON e.id_event_location = el.id
+    JOIN locations loc ON el.id_location = loc.id
+    JOIN provinces p ON loc.id_province = p.id
+    ORDER BY e.start_date DESC
+    LIMIT $1 OFFSET $2
+  `;
+
+  const { rows } = await client.query(query, [limit, offset]);
+  return rows.map(row => {
+    const evento = new Event(row);
+    evento.creatorUser = new User({
+      id: row.user_id,
+      firstName: row.first_name,
+      lastName: row.last_name,
+      username: row.username
+    });
+    evento.eventLocation = new EventLocation({
+      id: row.event_location_id,
+      name: row.event_location_name,
+      fullAddress: row.full_address,
+      location: new Location({
+        id: row.location_id,
+        name: row.location_name,
+        province: new Province({
+          id: row.province_id,
+          name: row.province_name
+        })
+      })
+    });
+    evento.maxCapacity = row.max_capacity;
+    return evento;
+  });
+}
