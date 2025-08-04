@@ -10,7 +10,7 @@ export async function obtenerEventoConDetalle(idEvento) {
   const query = `
     SELECT 
       e.*, 
-      u.id as user_id, u.first_name, u.last_name, u.username, -- creador usuario
+      u.id as user_id, u.first_name, u.last_name, u.username,
       el.id as event_location_id, el.name as event_location_name, el.full_address,
       loc.id as location_id, loc.name as location_name,
       p.id as province_id, p.name as province_name,
@@ -26,16 +26,13 @@ export async function obtenerEventoConDetalle(idEvento) {
   `;
 
   const { rows } = await client.query(query, [idEvento]);
-  if (rows.length === 0) {
-    return null;
-  }
-
+  if (rows.length === 0) return null;
+  
   const filaBase = rows[0];
-
   const evento = new Event(filaBase);
 
   evento.creatorUser = new User({
-    id: filaBase.user_id, 
+    id: filaBase.user_id,
     firstName: filaBase.first_name,
     lastName: filaBase.last_name,
     username: filaBase.username
@@ -178,4 +175,67 @@ export async function buscarEventos(filtros) {
     evento.maxCapacity = row.max_capacity;
     return evento;
   });
+}
+
+
+export async function crearEvento(evento) {
+  const query = `
+    INSERT INTO events
+      (name, description, id_event_category, id_event_location, start_date, duration_in_minutes,
+       price, enabled_for_enrollment, max_assistance, id_creator_user)
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *
+  `;
+  const values = [
+    evento.name, evento.description, evento.idEventCategory, evento.idEventLocation,
+    evento.startDate, evento.durationInMinutes, evento.price, evento.enabledForEnrollment,
+    evento.maxAssistance, evento.idCreatorUser
+  ];
+  const { rows } = await client.query(query, values);
+  return new Event(rows[0]);
+}
+
+export async function obtenerEventoPorId(id) {
+  const query = `SELECT * FROM events WHERE id = $1`;
+  const { rows } = await client.query(query, [id]);
+  if(!rows[0]) return null;
+  return new Event(rows[0]);
+}
+
+export async function actualizarEvento(evento) {
+  const query = `
+    UPDATE events SET
+    name=$1, description=$2, id_event_category=$3, id_event_location=$4,
+    start_date=$5, duration_in_minutes=$6, price=$7,
+    enabled_for_enrollment=$8, max_assistance=$9
+    WHERE id=$10
+    RETURNING *
+  `;
+  const values = [
+    evento.name, evento.description, evento.idEventCategory, evento.idEventLocation,
+    evento.startDate, evento.durationInMinutes, evento.price, evento.enabledForEnrollment,
+    evento.maxAssistance, evento.id
+  ];
+  const { rows } = await client.query(query, values);
+  if(!rows[0]) return null;
+  return new Event(rows[0]);
+}
+
+export async function eliminarEvento(id) {
+  const query = `DELETE FROM events WHERE id = $1 RETURNING *`;
+  const { rows } = await client.query(query, [id]);
+  if(!rows[0]) return null;
+  return new Event(rows[0]);
+}
+
+export async function tieneInscripciones(idEvento) {
+  const query = `SELECT COUNT(*) FROM event_enrollments WHERE id_event = $1`;
+  const { rows } = await client.query(query, [idEvento]);
+  return parseInt(rows[0].count,10) > 0;
+}
+
+export async function obtenerCapacidadLugar(idEventLocation) {
+  const query = `SELECT max_capacity FROM event_locations WHERE id = $1`;
+  const { rows } = await client.query(query, [idEventLocation]);
+  if (!rows[0]) return null;
+  return parseInt(rows[0].max_capacity, 10);
 }
