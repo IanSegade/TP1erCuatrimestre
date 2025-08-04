@@ -22,3 +22,7 @@ export async function listarEventosPaginadosService(limit = 10, offset = 0) {
   }
   return await eventRepositorio.listarEventosPaginados(Number(limit), Number(offset));
 }
+
+export async function buscarEventosService(filtros) {
+  return await eventRepositorio.buscarEventos(filtros);
+}

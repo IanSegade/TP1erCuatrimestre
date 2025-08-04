@@ -13,6 +13,7 @@ app.use(express.json());
 
 app.get('/api/event', eventController.manejarListarEventosPaginados); //2
 
+app.get('/api/events', eventController.manejarBuscarEventos); //3
 
 app.get('/api/event/:id', eventController.manejarObtenerEventoConDetalle); //4
 

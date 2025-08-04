@@ -27,3 +27,16 @@ export async function manejarListarEventosPaginados(req, res) {
     res.status(500).json({ error: "Error interno del servidor." });
   }
 }
+
+export async function manejarBuscarEventos(req, res) {
+  const { name, startdate, tag } = req.query;
+  const filtros = { name, startdate, tag };
+
+  try {
+    const eventos = await eventService.buscarEventosService(filtros);
+    res.status(200).json(eventos);
+  } catch (error) {
+    console.error("Error al buscar eventos:", error);
+    res.status(500).json({ error: "Error interno del servidor." });
+  }
+}
