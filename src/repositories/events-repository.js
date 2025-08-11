@@ -109,21 +109,21 @@ export async function listarEventosPaginados(limit, offset) {
 
 export async function buscarEventos(filtros) {
   let query = `
-    SELECT DISTINCT
-      e.id, e.name, e.description, e.start_date, e.duration_in_minutes, e.price,
-      e.enabled_for_enrollment, el.max_capacity,
-      u.id as user_id, u.first_name, u.last_name, u.username,
-      el.id as event_location_id, el.name as event_location_name, el.full_address,
-      loc.id as location_id, loc.name as location_name,
-      p.id as province_id, p.name as province_name
-    FROM events e
-    JOIN users u ON e.id_creator_user = u.id
-    JOIN event_locations el ON e.id_event_location = el.id
-    JOIN locations loc ON el.id_location = loc.id
-    JOIN provinces p ON loc.id_province = p.id
-    LEFT JOIN event_tags et ON et.id_event = e.id
-    LEFT JOIN tags t ON t.id = et.id_tag
-    WHERE 1=1
+  SELECT 
+  e.*, 
+  u.id as user_id, u.first_name, u.last_name, u.username,
+  el.id as event_location_id, el.name as event_location_name, el.full_address,
+  loc.id as location_id, loc.name as location_name,
+  p.id as province_id, p.name as province_name,
+  t.id as tag_id, t.name as tag_name
+  FROM events e
+  JOIN users u ON e.id_creator_user = u.id
+  JOIN event_locations el ON e.id_event_location = el.id
+  JOIN locations loc ON el.id_location = loc.id
+  JOIN provinces p ON loc.id_province = p.id
+  LEFT JOIN event_tags et ON et.id_event = e.id
+  LEFT JOIN tags t ON t.id = et.id_tag
+  WHERE e.id = $1
   `;
 
   const params = [];
