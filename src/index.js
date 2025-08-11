@@ -47,6 +47,7 @@ app.get('/api/event/:id/enrollment', middlewares.autenticacionMiddleware, enroll
 
 app.get('/api/user/me', middlewares.autenticacionMiddleware, userController.manejarObtenerUsuarioToken);
 
+app.get('/api/events/user', middlewares.autenticacionMiddleware, eventController.manejarObtenerEventosPorUsuario);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

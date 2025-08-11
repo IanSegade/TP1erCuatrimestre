@@ -90,3 +90,14 @@ export async function eliminarEventoService(idEvento, idUsuario) {
 
   return await eventRepositorio.eliminarEvento(idEvento);
 }
+
+export async function obtenerEventosPorUsuarioService(idUsuario) {
+  if (!idUsuario || isNaN(Number(idUsuario))) {
+    const error = new Error("El idUsuario proporcionado no es válido");
+    error.codigo = 400;
+    throw error;
+  }
+  
+  const eventos = await eventRepositorio.obtenerEventosPorUsuario(Number(idUsuario));
+  return eventos;
+}

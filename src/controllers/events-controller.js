@@ -96,3 +96,22 @@ export async function manejarEliminarEvento(req, res){
     res.status(400).json({ error: error.message });
   }
 }
+
+export async function manejarObtenerEventosPorUsuario(req, res) {
+  const usuario = req.user;
+
+  if (!usuario) {
+    return res.status(401).json({ error: "No autorizado" });
+  }
+
+  try {
+    const eventos = await eventService.obtenerEventosPorUsuarioService(usuario.id);
+    res.status(200).json(eventos);
+  } catch (error) {
+    if (error.codigo) {
+      return res.status(error.codigo).json({ error: error.message });
+    }
+    console.error("Error al obtener eventos por usuario:", error);
+    res.status(500).json({ error: "Error interno del servidor." });
+  }
+}
