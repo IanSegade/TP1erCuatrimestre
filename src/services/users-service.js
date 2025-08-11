@@ -20,3 +20,8 @@ export async function login(username, password) {
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
   return { token, user };
 }
+
+export async function obtenerUsuarioDesdeToken(id_user) {
+    const user = await userRepositorio.obtenerUsuarioPorId(id_user);
+    return user;
+}

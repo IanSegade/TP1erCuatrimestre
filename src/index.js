@@ -43,6 +43,11 @@ app.put('/api/event-location/:id', middlewares.autenticacionMiddleware, eventLoc
 
 app.delete('/api/event-location/:id', middlewares.autenticacionMiddleware, eventLocationController.manejarEliminar); //8
 
+app.get('/api/event/:id/enrollment', middlewares.autenticacionMiddleware, enrollmentController.manejarVerificarInscripcion);
+
+app.get('/api/user/me', middlewares.autenticacionMiddleware, userController.manejarObtenerUsuarioToken);
+
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

@@ -24,3 +24,15 @@ export async function manejarDesinscripcion(req, res) {
         return res.status(error.codigo || 500).json({ error: error.message });
     }
 }
+
+export async function manejarVerificarInscripcion(req, res) {
+    const id_event = parseInt(req.params.id);
+    const id_user = req.user.id;
+
+    try {
+        const estaInscripto = await service.verificarInscripcion(id_event, id_user);
+        return res.status(200).json({ inscrito: estaInscripto });
+    } catch (error) {
+        return res.status(error.codigo || 500).json({ error: error.message });
+    }
+}

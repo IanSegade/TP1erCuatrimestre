@@ -8,7 +8,16 @@ export async function validarCredenciales(username, password) {
     if (!rows[0]) return null;
   
     const user = new User(rows[0]);
-    // Evitar devolver password
     user.password = undefined;
     return user;
   }
+
+  export async function obtenerUsuarioPorId(id) {
+    const query = 'SELECT * FROM users WHERE id = $1';
+    const { rows } = await client.query(query, [id]);
+    if (!rows[0]) return null;
+
+    const user = new User(rows[0]);
+    user.password = undefined;
+    return user;
+}

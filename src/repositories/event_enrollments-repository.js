@@ -32,3 +32,9 @@ export async function eliminarInscripcion(id_event, id_user) {
     const { rows } = await client.query(query, [id_event, id_user]);
     return rows[0] || null;
 }
+
+export async function verificarInscripcion(id_event, id_user) {
+    const query = 'SELECT * FROM event_enrollments WHERE id_event = $1 AND id_user = $2';
+    const { rows } = await client.query(query, [id_event, id_user]);
+    return rows.length > 0;
+}

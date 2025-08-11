@@ -66,3 +66,7 @@ export async function desinscribirUsuario(id_event, id_user) {
 
     return await repoService.eliminarInscripcion(id_event, id_user);
 }
+
+export async function verificarInscripcion(id_event, id_user) {
+    return await repoService.usuarioYaInscripto(id_event, id_user);
+}
