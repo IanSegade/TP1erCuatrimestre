@@ -16,7 +16,7 @@ export async function obtenerEventoConDetalleService(idEvento) {
   return evento;
 }
 
-export async function listarEventosPaginadosService(limit = 10, offset = 0) {
+export async function listarEventosPaginadosService(limit = 100, offset = 0) {
   if (isNaN(Number(limit)) || isNaN(Number(offset))) {
     throw new Error("Los parámetros limit y offset deben ser números válidos");
   }
