@@ -201,6 +201,8 @@ export async function obtenerEventoPorId(id) {
 }
 
 export async function actualizarEvento(evento) {
+  const enabledForEnrollmentValue = evento.enabledForEnrollment ? 1 : 0;
+
   const query = `
     UPDATE events SET
     name=$1, description=$2, id_event_category=$3, id_event_location=$4,
@@ -209,15 +211,25 @@ export async function actualizarEvento(evento) {
     WHERE id=$10
     RETURNING *
   `;
+
   const values = [
-    evento.name, evento.description, evento.idEventCategory, evento.idEventLocation,
-    evento.startDate, evento.durationInMinutes, evento.price, evento.enabledForEnrollment,
-    evento.maxAssistance, evento.id
+    evento.name, 
+    evento.description, 
+    evento.idEventCategory, 
+    evento.idEventLocation,
+    evento.startDate, 
+    evento.durationInMinutes, 
+    evento.price, 
+    enabledForEnrollmentValue,
+    evento.maxAssistance, 
+    evento.id
   ];
+
   const { rows } = await client.query(query, values);
-  if(!rows[0]) return null;
+  if (!rows[0]) return null;
   return new Event(rows[0]);
 }
+
 
 export async function eliminarEvento(id) {
   const query = `DELETE FROM events WHERE id = $1 RETURNING *`;
